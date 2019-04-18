@@ -1,5 +1,5 @@
 # Major Project Proposal
-A 2d array grid that has a player at each corner of the screen. In the simplest form the player needs to capture territory and attack other players territory.
+A 2d array grid that has a player at each corner of the screen. In the simplest form the player needs to capture territory and attack other players territory. 
 
 ## Need to Have List
 - Different colors for the 2 different players
@@ -15,6 +15,7 @@ A 2d array grid that has a player at each corner of the screen. In the simplest 
 - power ups
 - power down spaces
 - Have player be able to directly atttack another player
+- Add a capture the flag aspect
 - jail space
 - Nice menu screen
 - Playing against a computer
