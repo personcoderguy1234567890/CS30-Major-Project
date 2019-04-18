@@ -9,12 +9,12 @@ A 2d array grid that has a player at each corner of the screen. In the simplest 
 - Having the game end with player dying after losing it's one life
 
 ## Nice to Have List
-- Playing against a computer
-- power ups
+- Having each player have muliple lives
 - locking a space on the game board by moving over it twice
 - Having 4 different players
-- Nice menu screen
-- power downs
-- Having each player have muliple lives
-- jail space
+- power ups
+- power down spaces
 - Have player be able to directly atttack another player
+- jail space
+- Nice menu screen
+- Playing against a computer
