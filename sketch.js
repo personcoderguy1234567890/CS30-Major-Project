@@ -13,6 +13,7 @@ let yCor;
 
 function setup() {
   createCanvas(400, 400);
+  createSprite(100, 200, 50, 50);
   ballStuff = {
     x:50, 
     y:350,
@@ -34,6 +35,7 @@ function draw() {
   base();
   move();
   ball();
+  drawSprites();
 }
 
 function ball() {
