@@ -9,7 +9,7 @@ let ballStuff;
 let lineCh;
 let xCor;
 let yCor;
-
+let ballImage;
 
 function setup() {
   createCanvas(400, 400);
@@ -29,6 +29,9 @@ function setup() {
   xCor = ballStuff.x;
   yCor = ballStuff.y;
 }
+
+function preload() 
+  ballImage = loadImage( , [successCallback], [failureCallback])
 
 function draw() {
   background(220);
