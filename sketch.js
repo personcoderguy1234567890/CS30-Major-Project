@@ -61,48 +61,69 @@
 
 // }
 
-let ball;
+let smileyBall;
 let ballImage;
 
 
+
 function preload() {
-  ballImage = loadAnimation('assets/smileyface.png', 'assets/stressedface.png');
-
-
+  ballImage = loadImage('assets/smileyface.png');
 }
 
 function setup() {
   createCanvas(500, 500);
-  ball = {
-    x:50, 
-    y:350,
-    dx:5, 
-    dy:5,
-    Scalar: 0.1,
-    width = ballImage.width * ball.Scalar,
-    height = ballImage.height * ball.Scalar,
-  };
+  smileyBall = new Ball();
 }
 
 function draw() {
-  background(255, 255, 255);
+  background("grey");
+  rotationScan();
+  rotating(smileyBall);
   move();
-  animation(ballImage, ball.x, ball.y, ball.width, ball.height);
+  image(ballImage, smileyBall.x, smileyBall.y, smileyBall.theWidth, smileyBall.theHeight);
+}
 
+class Ball {
+  constructor() {
+    this.x = 50;
+    this.y = 350;
+    this.dx = 5;
+    this.dy = 5;
+    this.scalar = 0.1;
+    this.theWidth = ballImage.width * this.scalar;
+    this.theHeight = ballImage.height * this.scalar;
+  }
+}
+
+function rotationScan() {
+  if (keyIsPressed && (key === "d")) {
+    translate(smileyBall.x, smileyBall.y);
+    rotate(smileyBall.dx * mouseX , 3);
+  }
+  else {
+    translate(smileyBall.x, smileyBall.y);
+  }
+}
+
+function rotating(ball) {
+  push();
+  rotationScan();
+  pop();
 }
 
 function move() {
   if (keyIsPressed && (key === "d")) {
-    ball.x +=ball.dx;
+    smileyBall.x += smileyBall.dx;
+    rotate(smileyBall.dx, 3);
   }
   if (keyIsPressed && (key === "a")) {
-    ball.x -=ball.dx;
+    smileyBall.x -= smileyBall.dx;
   }
   if (keyIsPressed && (key === "w")) {
-    ball.y -=ball.dy;
+    smileyBall.y -= smileyBall.dy;
   }
   if (keyIsPressed && (key === "d" && key === "w")) {
-    ball.x +=ball.dx;
-    ball.y -=ball.dy;
+    smileyBall.x += smileyBall.dx;
+    smileyBall.y -= smileyBall.dy;
   }
 }
