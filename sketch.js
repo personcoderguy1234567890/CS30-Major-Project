@@ -79,6 +79,7 @@ function draw() {
   background("grey");
   // rotationScan();
   // rotating(smileyBall);
+  rotater();
   move();
   image(ballImage, smileyBall.x, smileyBall.y, smileyBall.theWidth, smileyBall.theHeight);
 }
@@ -118,6 +119,17 @@ function move() {
     smileyBall.x += smileyBall.dx;
     smileyBall.rotation += 4;
   }
+}
+
+function rotater() {
+  if(keyDown(LEFT_ARROW)) {
+    smileyBall.rotation -= 4;
+  }
+  if(keyDown(RIGHT_ARROW)) { 
+    smileyBall.rotation += 4;
+  }
+}
+
 }
 // function move() {
 //   if (keyIsPressed && (key === "d")) {
