@@ -77,8 +77,8 @@ function setup() {
 
 function draw() {
   background("grey");
-  rotationScan();
-  rotating(smileyBall);
+  // rotationScan();
+  // rotating(smileyBall);
   move();
   image(ballImage, smileyBall.x, smileyBall.y, smileyBall.theWidth, smileyBall.theHeight);
 }
@@ -95,35 +95,43 @@ class Ball {
   }
 }
 
-function rotationScan() {
-  if (keyIsPressed && (key === "d")) {
-    translate(smileyBall.x, smileyBall.y);
-    rotate(smileyBall.dx * mouseX , 3);
-  }
-  else {
-    translate(smileyBall.x, smileyBall.y);
-  }
-}
+// function rotationScan() {
+//   if (keyIsPressed && (key === "d")) {
+//     rotate(smileyBall.dx * , 3);
+//   }
+//   else {
+//     translate(smileyBall.x, smileyBall.y);
+//   }
+// }
 
-function rotating(ball) {
-  push();
-  rotationScan();
-  pop();
-}
-
+// function rotating(ball) {
+//   push();
+//   rotationScan();
+//   pop();
+// }
 function move() {
-  if (keyIsPressed && (key === "d")) {
-    smileyBall.x += smileyBall.dx;
-    rotate(smileyBall.dx, 3);
-  }
-  if (keyIsPressed && (key === "a")) {
+  if(keyDown(LEFT_ARROW)) {
     smileyBall.x -= smileyBall.dx;
+    smileyBall.rotation -= 4;
   }
-  if (keyIsPressed && (key === "w")) {
-    smileyBall.y -= smileyBall.dy;
-  }
-  if (keyIsPressed && (key === "d" && key === "w")) {
+  if(keyDown(RIGHT_ARROW)) { 
     smileyBall.x += smileyBall.dx;
-    smileyBall.y -= smileyBall.dy;
+    smileyBall.rotation += 4;
   }
 }
+// function move() {
+//   if (keyIsPressed && (key === "d")) {
+//     smileyBall.x += smileyBall.dx;
+//     smileyBall.rotation += 3;
+//   }
+//   if (keyIsPressed && (key === "a")) {
+//     smileyBall.x -= smileyBall.dx;
+//   }
+//   if (keyIsPressed && (key === "w")) {
+//     smileyBall.y -= smileyBall.dy;
+//   }
+//   if (keyIsPressed && (key === "d" && key === "w")) {
+//     smileyBall.x += smileyBall.dx;
+//     smileyBall.y -= smileyBall.dy;
+//   }
+// }
