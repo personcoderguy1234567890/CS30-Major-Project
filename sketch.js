@@ -5,66 +5,59 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-// let ballStuff;
-// let lineCh;
-// let xCor;
-// let yCor;
-// let ballImage;
 
-// function setup() {
-//   createCanvas(400, 400);
-//   createSprite(100, 200, 50, 50);
-//   ballStuff = {
-//     x:50, 
-//     y:350,
-//     dx:5, 
-//     dy:5,
-//     size:50,
-//   };
-// }
-
-// // function preload() 
-// //   ballImage = loadImage("assets/smileyface.jpg");
-
-// function draw() {
-//   background(220);
-//   base();
-//   move();
-//   // drawSprites();
-// }
-
-// function ball() {
-//   fill("red");
-//   ellipse(ballStuff.x, ballStuff.y, ballStuff.size, ballStuff.size);
-// }
-
-// function move() {
-//   if (keyIsPressed && (key === "d")) {
-//     ballStuff.x += ballStuff.dx;
-//   }
-//   if (keyIsPressed && (key === "a")) {
-//     ballStuff.x -= ballStuff.dx;
-//   }
-//   if (keyIsPressed && (key === "w")) {
-//     ballStuff.y -= ballStuff.dy;
-//   }
-//   if (keyIsPressed && (key === "d" && key === "w")) {
-//     ballStuff.x += ballStuff.dx;
-//     ballStuff.y -= ballStuff.dy;
-//   }
-// }
 
 // function base() {
 //   fill("black");
 //   rect(0, 350, 400, 50);
 
+// }
+// let yLocation, yVelocity, yAcceleration;
+// let x, radius;
+// let gravity, ground;
 
+// function setup() {
+//   createCanvas(windowWidth, windowHeight);
+//   radius = 25;
+//   ground = height - radius;
+//   x = width/2;
+//   gravity = 0.1;
+//   yLocation = ground;
+//   yVelocity = 0;
+//   yAcceleration = 0;
 // }
 
-let smileyBall;
+
+//   // physics
+//   yAcceleration = 0;
+//   yVelocity += gravity;
+//   if (yLocation > ground) {
+//     yLocation = ground;
+//     yVelocity = 0;
+//   }
+
+// function keyPressed() {
+//   if (key === " ") {
+//     yAcceleration = -5;
+//   }
+// }
+
+let ball;
 let ballImage;
+let gravity, ground;
 
-
+class Theball {
+  constructor() {
+    this.x = width/2;
+    this.y = ground;
+    this.dx = 5;
+    this.dy = 5;
+    this.scalar = 0.1;
+    this.radius = ballImage.width * this.scalar;
+    this.yVelocity = 0;
+    this.yAcceleration = 0;
+  }
+}
 
 function preload() {
   ballImage = loadImage('assets/smileyface.png');
@@ -72,29 +65,51 @@ function preload() {
 
 function setup() {
   createCanvas(500, 500);
-  smileyBall = new Ball();
+  ball = new Theball();
+  ground = height - ball.radius;
+  gravity = 0.1;
 }
 
 function draw() {
   background("grey");
-  // rotationScan();
-  // rotating(smileyBall);
-  rotater();
   move();
-  image(ballImage, smileyBall.x, smileyBall.y, smileyBall.theWidth, smileyBall.theHeight);
+  image(ballImage, ball.x, ball.y, ball.radius, ball.radius);
 }
 
-class Ball {
-  constructor() {
-    this.x = 50;
-    this.y = 350;
-    this.dx = 5;
-    this.dy = 5;
-    this.scalar = 0.1;
-    this.theWidth = ballImage.width * this.scalar;
-    this.theHeight = ballImage.height * this.scalar;
+
+
+function move() {
+  if (keyIsPressed && (key === "d")) {
+    ball.x += ball.dx;
+  }
+  if (keyIsPressed && (key === "a")) {
+    ball.x -= ball.dx;
+  }
+  if (keyIsPressed && (key === "w")) {
+    ball.y -= ball.dy;
+    ball.yAcceleration = -5;
+  }
+  if (keyIsPressed && (key === "d" && key === "w")) {
+    ball.x += ball.dx;
+    ball.y -= ball.dy;
   }
 }
+
+function theGravity() {
+  // physics
+  ball.yAcceleration = 0;
+  ball.yVelocity += gravity;
+  if (ball.y > ground) {
+    ball.y = ground;
+    ball.yVelocity = 0;
+  }
+}
+
+
+
+
+
+
 
 // function rotationScan() {
 //   if (keyIsPressed && (key === "d")) {
@@ -110,40 +125,17 @@ class Ball {
 //   rotationScan();
 //   pop();
 // }
-function move() {
-  if(keyDown(LEFT_ARROW)) {
-    smileyBall.x -= smileyBall.dx;
-    smileyBall.rotation -= 4;
-  }
-  if(keyDown(RIGHT_ARROW)) { 
-    smileyBall.x += smileyBall.dx;
-    smileyBall.rotation += 4;
-  }
-}
-
-function rotater() {
-  if(keyDown(LEFT_ARROW)) {
-    smileyBall.rotation -= 4;
-  }
-  if(keyDown(RIGHT_ARROW)) { 
-    smileyBall.rotation += 4;
-  }
-}
-
-}
 // function move() {
-//   if (keyIsPressed && (key === "d")) {
-//     smileyBall.x += smileyBall.dx;
-//     smileyBall.rotation += 3;
-//   }
-//   if (keyIsPressed && (key === "a")) {
+//   if(keyDown(LEFT_ARROW)) {
 //     smileyBall.x -= smileyBall.dx;
+
 //   }
-//   if (keyIsPressed && (key === "w")) {
-//     smileyBall.y -= smileyBall.dy;
-//   }
-//   if (keyIsPressed && (key === "d" && key === "w")) {
+//   if(keyDown(RIGHT_ARROW)) { 
 //     smileyBall.x += smileyBall.dx;
-//     smileyBall.y -= smileyBall.dy;
+
 //   }
 // }
+
+
+
+
