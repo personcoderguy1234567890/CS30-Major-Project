@@ -48,32 +48,35 @@ let gravity, ground;
 
 class Theball {
   constructor() {
-    this.x = width/2;
-    this.y = ground;
+    this.x = 50;
+    this.y = ground - ball.radius;
     this.dx = 5;
     this.dy = 5;
+    this.ay = 0;
+    this.ax = 0;
     this.scalar = 0.1;
     this.radius = ballImage.width * this.scalar;
-    this.yVelocity = 0;
-    this.yAcceleration = 0;
   }
-}
-
-function preload() {
-  ballImage = loadImage('assets/smileyface.png');
 }
 
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
-  ground = height - ball.radius;
+  ground = rect(0, 350, 400, 50);
   gravity = 0.1;
 }
+
+
+function preload() {
+  ballImage = loadImage('assets/smileyface.png');
+}
+
+
 
 function draw() {
   background("grey");
   move();
-  image(ballImage, ball.x, ball.y, ball.radius, ball.radius);
+  image(ballImage, ball.x, ball.y, ball.radius * 2, ball.radius * 2);
 }
 
 
@@ -87,7 +90,6 @@ function move() {
   }
   if (keyIsPressed && (key === "w")) {
     ball.y -= ball.dy;
-    ball.yAcceleration = -5;
   }
   if (keyIsPressed && (key === "d" && key === "w")) {
     ball.x += ball.dx;
@@ -95,15 +97,6 @@ function move() {
   }
 }
 
-function theGravity() {
-  // physics
-  ball.yAcceleration = 0;
-  ball.yVelocity += gravity;
-  if (ball.y > ground) {
-    ball.y = ground;
-    ball.yVelocity = 0;
-  }
-}
 
 
 
