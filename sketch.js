@@ -62,23 +62,45 @@ class Theball {
     this.radius = 50;
     this.x = 50;
     this.y = height - 50;
-    this.dy = 5;
-    this.dx = 5;
+    this.gravity = 0.1;
+    this.dy = 0;
+    this.dx = 0;
     this.ay = 0;
     this.ax = 0;
   }
+  preload() {
+    ballImage = loadImage('assets/smileyface.png');
+  }
+  display() {
+    image(ballImage, ball.x, ball.y, ball.radius, ball.radius);
+  }
+  
+  update() {
+    ball.y += ball.dy;
+    ball.dy += ball.ay;
+
+    ball.x += ball.dx;
+    ball.dx += ball.ax;
+
+    ball.dy = 0;
+    ball.ay = 0;
+
+    ball.dx = 0;
+    ball.ax = 0;
+
+  }
 }
 
-function preload() {
-  ballImage = loadImage('assets/smileyface.png');
-}
 
 
 
 function draw() {
   background("grey");
+
+  ball.preload();
+  ball.display();
+  ball.update();
   move();
-  image(ballImage, ball.x, ball.y, ball.radius, ball.radius);
 }
 
 
@@ -87,8 +109,7 @@ function move() {
   ball.ay = 0;
   
   if (keyIsPressed && (key === "d")) {
-    ball.dx += ball.ax;
-    ball.x += ball.dx;
+    ball.ax = 5;
 
   }
   if (keyIsPressed && (key === "a")) {
