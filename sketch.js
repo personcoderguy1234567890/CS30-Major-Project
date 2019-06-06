@@ -8,7 +8,8 @@
 
 let ball, scalar;
 let ballImage;
-let groundLocation, ground;
+let groundLocation = 425;
+let ground;
 
 
 
@@ -35,13 +36,12 @@ class Theball {
   constructor() {
     this.radius = 25;
     this.x = 50;
-    this.y = height - 100;
-    this.gravity = 0.1;
+    this.y = 425;
+    this.gravity = 0.9;
     this.dy = 0;
     this.dx = 0;
     this.ay = 0;
     this.ax = 0;
-    this.groundPoint = 450;
   }
 
   display() {
@@ -57,6 +57,13 @@ class Theball {
     this.dx += this.ax;
     this.x += this.dx;
 
+    if (!keyIsPressed) {
+      this.dx *= 0.9;
+    }
+    if (!keyIsPressed) {
+      this.dy *= 0.9;
+    }
+
     // this.dy = 0;
     this.ay = 0;
 
@@ -67,24 +74,35 @@ class Theball {
 }
 
 function surface() {
+  fill("black");
   rect(0, 450, 500, 50);
-  
+  // if (x + rectWidth >= width || x <= 0) {
+  //   dx = -1 * dx;
+  // }
+  // if (y + rectHeight >= height || y <= 0) {
+  //   dy = -1 * dy;
+  // }
+  if (ball.y + ball.radius >= groundLocation) {
+    ball.y <= groundLocation;
+  } 
 }
 
-
 function keyPressed() {
-  groundLocation = 400;
-  if (keyIsPressed && (key === "d")) {
-    ball.ax = 0.5;
+
+  if (key === "d") {
+    ball.ax = 5;
   }
-  if (keyIsPressed && (key === "a")) {
-    ball.ax = -0.5;
+  if (key === "a") {
+    ball.ax = -5;
   }
-  if (keyIsPressed && (key === "w")) {
+  if (key === "w") {
     ball.ay = -5;
     while (ball.dy > groundLocation) {
       ball.ay += ball.gravity;
     }
+  }
+  if (key === "s") {
+    ball.ay = 5;
   }
 
 }
