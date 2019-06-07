@@ -8,7 +8,7 @@
 
 let ball, scalar;
 let ballImage;
-let groundLocation = 425;
+let groundLocation = 450;
 let ground;
 
 
@@ -26,22 +26,41 @@ function setup() {
 function draw() {
   background("grey");
   surface();
+  // theGravity();
   ball.display();
   ball.update();
-  
-  // move();
+  checkSurface();
 }
+
+// class Enemies {
+//   constructor() {
+//     this.x = 100;
+//     this.y = 100;
+    
+//   }
+//   display() {
+//     fill("green");
+//     rect()
+//   }
+// }
+
 
 class Theball {
   constructor() {
     this.radius = 25;
     this.x = 50;
     this.y = 425;
-    this.gravity = 0.9;
+    this.gravity = 0.7;
     this.dy = 0;
     this.dx = 0;
     this.ay = 0;
     this.ax = 0;
+  }
+
+  applyGravity() {
+    if (this.y + this.radius < groundLocation) {
+      this.dy += this.gravity;
+    }
   }
 
   display() {
@@ -57,12 +76,16 @@ class Theball {
     this.dx += this.ax;
     this.x += this.dx;
 
+    // this.y <= 425;
+
     if (!keyIsPressed) {
       this.dx *= 0.9;
     }
     if (!keyIsPressed) {
       this.dy *= 0.9;
     }
+
+    this.applyGravity();
 
     // this.dy = 0;
     this.ay = 0;
@@ -76,17 +99,22 @@ class Theball {
 function surface() {
   fill("black");
   rect(0, 450, 500, 50);
-  // if (x + rectWidth >= width || x <= 0) {
-  //   dx = -1 * dx;
-  // }
-  // if (y + rectHeight >= height || y <= 0) {
-  //   dy = -1 * dy;
-  // }
-  if (ball.y + ball.radius >= groundLocation) {
-    ball.y <= groundLocation;
+
+}
+
+function checkSurface() {
+  if (ball.y + ball.radius > groundLocation) {
+    ball.y = groundLocation - ball.radius;
+    ball.dy = 0;
   } 
 }
 
+
+function enemies() {
+  fill("green");
+  rect(100, 100, 50, 50);
+
+}
 function keyPressed() {
 
   if (key === "d") {
@@ -97,14 +125,12 @@ function keyPressed() {
   }
   if (key === "w") {
     ball.ay = -5;
-    while (ball.dy > groundLocation) {
-      ball.ay += ball.gravity;
-    }
   }
   if (key === "s") {
     ball.ay = 5;
   }
 
 }
+
 
 
