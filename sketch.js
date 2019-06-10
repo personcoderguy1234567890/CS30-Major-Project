@@ -5,8 +5,27 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+// class Bullets() {
+//   constructor() {
+//     this.radius = 5;
+//     this.x = 50;
+//     this.y = 425;
+//     this.gravity = 0.7;
+//     this.dy = 0;
+//     this.dx = 0;
+//     this.ay = 0;
+//     this.ax = 0;
+//   }
 
-let ball, scalar;
+//   display() {
+//     fill("blue")
+//     ellipse(this.x, this.y, this.radius*2, this.radius*2);
+//   }
+
+// }
+
+
+let ball, enemy1, scalar;
 let ballImage;
 let groundLocation = 450;
 let ground;
@@ -21,29 +40,24 @@ function preload() {
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
+  // (x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
+  enemy1 = new Enemey(350,100, 400,100, 375,200, "green", 325, 120);
 }
 
 function draw() {
   background("grey");
   surface();
+  
   enemies();
-  // theGravity();
+  enemy1.organizer();
+  
   ball.display();
   ball.update();
+  
   checkSurface();
+  
 }
 
-// class Enemies {
-//   constructor() {
-//     this.x = 100;
-//     this.y = 100;
-    
-//   }
-//   display() {
-//     fill("green");
-//     rect()
-//   }
-// }
 
 
 class Theball {
@@ -68,7 +82,6 @@ class Theball {
   display() {
     fill("red");
     ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
-    // image(this.ballImage, this.x, this.y, this.radius, this.radius);
   }
   
   update() {
@@ -89,39 +102,55 @@ class Theball {
 
     this.applyGravity();
 
-    // this.dy = 0;
     this.ay = 0;
 
-    // this.dx = 0;
     this.ax = 0;
 
   }
 }
 
-// class Enemies {
-//   constructor() {
+class Enemey {
+  constructor(x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
+    this.x1 = x1;
+    this.y1 = y1;
     
-//   }
-// }
+    this.x2 = x2;
+    this.y2 = y2;
 
-class Bullets() {
-  constructor() {
-    this.radius = 5;
-    this.x = 50;
-    this.y = 425;
-    this.gravity = 0.7;
-    this.dy = 0;
-    this.dx = 0;
-    this.ay = 0;
-    this.ax = 0;
+    this.x3 = x3;
+    this.y3 = y3;
+
+    this.color = color;
+
+    this.dx = 0.2;
+
+    this.translatex = translatex;
+    this.translatey = translatey;
   }
-
+  
   display() {
-    fill("blue")
-    ellipse(this.x, this.y, this.radius*2, this.radius*2);
+    fill(color);
+    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+  }
+  
+  scanner() {
+    translate(this.translatex, this.translatey);
+    rotate(this.dx * mouseX, 3);
   }
 
+  organizer() {
+    push();
+    this.scanner();
+    this.display();
+    pop();
+  }
 }
+
+
+
+// function mousePressed() {
+//   Enemies.shoot();
+// }
 
 function surface() {
   fill("black");
@@ -139,29 +168,13 @@ function checkSurface() {
 
 function enemies() {
   fill("green");
-  // triangle(x1, y1, x2, y2, x3, y3)
-  triangle(100,100, 150,100, 125,200 );
-  triangle(350,100, 400,100, 375,200)
+  // triangle(this.x1, y1, x2, y2, x3, y3)
+  translate(125, 120);
+  
+  rotate(0.9 * mouseX, 3);
+  triangle(350,100, 400,100, 375,200);
 
-}
 
-  // function headScanner() {
-  //   if (keyIsPressed && (key === "w")) {
-  //     translate(x, y);
-  //     rotate(dx * mouseX , 3);
-  //   }
-  //   else {
-  //     translate(x, y);
-  //   }
-  // }
-
-let theBullets = [];
-
-function mouseClicked() {
-  for (let i = 0; i < Bullets.length; i++) {
-    theBullets[i].shoot();
-
-  } 
 }
 
 function keyPressed() {
