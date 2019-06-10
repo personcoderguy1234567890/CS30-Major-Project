@@ -26,6 +26,7 @@ function setup() {
 function draw() {
   background("grey");
   surface();
+  enemies();
   // theGravity();
   ball.display();
   ball.update();
@@ -56,6 +57,7 @@ class Theball {
     this.ay = 0;
     this.ax = 0;
   }
+
 
   applyGravity() {
     if (this.y + this.radius < groundLocation) {
@@ -96,6 +98,31 @@ class Theball {
   }
 }
 
+// class Enemies {
+//   constructor() {
+    
+//   }
+// }
+
+class Bullets() {
+  constructor() {
+    this.radius = 5;
+    this.x = 50;
+    this.y = 425;
+    this.gravity = 0.7;
+    this.dy = 0;
+    this.dx = 0;
+    this.ay = 0;
+    this.ax = 0;
+  }
+
+  display() {
+    fill("blue")
+    ellipse(this.x, this.y, this.radius*2, this.radius*2);
+  }
+
+}
+
 function surface() {
   fill("black");
   rect(0, 450, 500, 50);
@@ -112,9 +139,31 @@ function checkSurface() {
 
 function enemies() {
   fill("green");
-  rect(100, 100, 50, 50);
+  // triangle(x1, y1, x2, y2, x3, y3)
+  triangle(100,100, 150,100, 125,200 );
+  triangle(350,100, 400,100, 375,200)
 
 }
+
+  // function headScanner() {
+  //   if (keyIsPressed && (key === "w")) {
+  //     translate(x, y);
+  //     rotate(dx * mouseX , 3);
+  //   }
+  //   else {
+  //     translate(x, y);
+  //   }
+  // }
+
+let theBullets = [];
+
+function mouseClicked() {
+  for (let i = 0; i < Bullets.length; i++) {
+    theBullets[i].shoot();
+
+  } 
+}
+
 function keyPressed() {
 
   if (key === "d") {
