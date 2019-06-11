@@ -31,34 +31,28 @@ let groundLocation = 450;
 let ground;
 
 
-
-function preload() {
-  ballImage = loadImage("assets/face.png");
-}
-
-
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
   // (x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
-  enemy1 = new Enemey(350,100, 400,100, 375,200, "green", 325, 120);
+  enemy1 = new Enemy(350,100, 400,100, 375,200, "green", 375, 150);
 }
 
 function draw() {
   background("grey");
   surface();
-  
-  enemies();
-  enemy1.organizer();
-  
+
+  push();
+  enemy1.display();
+  enemy1.scanner();
+  pop();
+  // enemy1.display();
   ball.display();
   ball.update();
   
   checkSurface();
   
 }
-
-
 
 class Theball {
   constructor() {
@@ -91,8 +85,6 @@ class Theball {
     this.dx += this.ax;
     this.x += this.dx;
 
-    // this.y <= 425;
-
     if (!keyIsPressed) {
       this.dx *= 0.9;
     }
@@ -109,7 +101,7 @@ class Theball {
   }
 }
 
-class Enemey {
+class Enemy {
   constructor(x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
     this.x1 = x1;
     this.y1 = y1;
@@ -117,19 +109,19 @@ class Enemey {
     this.x2 = x2;
     this.y2 = y2;
 
+    this.color = color;
+
     this.x3 = x3;
     this.y3 = y3;
 
-    this.color = color;
-
-    this.dx = 0.2;
+    this.dx = 0.9;
 
     this.translatex = translatex;
     this.translatey = translatey;
   }
   
   display() {
-    fill(color);
+    fill(this.color);
     triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
   }
   
@@ -138,14 +130,14 @@ class Enemey {
     rotate(this.dx * mouseX, 3);
   }
 
-  organizer() {
-    push();
-    this.scanner();
-    this.display();
-    pop();
-  }
+
 }
 
+// class Bullet {
+//   this.x = enemy1.x;
+//   this.y = ene
+
+// } 
 
 
 // function mousePressed() {
@@ -166,16 +158,17 @@ function checkSurface() {
 }
 
 
-function enemies() {
-  fill("green");
-  // triangle(this.x1, y1, x2, y2, x3, y3)
-  translate(125, 120);
+// function enemies() {
+//   fill("green");
+//   // triangle(this.x1, y1, x2, y2, x3, y3)
+//   translate(125, 120);
   
-  rotate(0.9 * mouseX, 3);
-  triangle(350,100, 400,100, 375,200);
+//   rotate(0.9 * mouseX, 3);
+//   enemy1;
+//   // triangle(350,100, 400,100, 375,200);
+//   enemy1()
 
-
-}
+// }
 
 function keyPressed() {
 
