@@ -35,7 +35,9 @@ function setup() {
   createCanvas(500, 500);
   ball = new Theball();
   // (x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
-  enemy1 = new Enemy(350,100, 400,100, 375,200, "green", 375, 150);
+  // (rectWidth, rectHeight, color, translatex, translatey)
+  enemy1 = new Enemy(100, 100, "green", 250, 250);
+  // enemy1 = new Enemy(350,100, 400,100, 375,200, "green", 375, 150);
 }
 
 function draw() {
@@ -43,8 +45,8 @@ function draw() {
   surface();
 
   push();
-  enemy1.display();
   enemy1.scanner();
+  enemy1.display();
   pop();
   // enemy1.display();
   ball.display();
@@ -102,17 +104,14 @@ class Theball {
 }
 
 class Enemy {
-  constructor(x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
-    this.x1 = x1;
-    this.y1 = y1;
-    
-    this.x2 = x2;
-    this.y2 = y2;
+  constructor(rectWidth, rectHeight, color, translatex, translatey) {
+    this.x = x;
+    this.y = y;
+
+    this.width = rectWidth;
+    this.height = rectHeight;
 
     this.color = color;
-
-    this.x3 = x3;
-    this.y3 = y3;
 
     this.dx = 0.9;
 
@@ -121,17 +120,59 @@ class Enemy {
   }
   
   display() {
+    rectMode(CENTER)
     fill(this.color);
-    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+    rect(0, 0, this.rectWidth, this.rectHeight);
   }
   
   scanner() {
-    translate(this.translatex, this.translatey);
-    rotate(this.dx * mouseX, 3);
+    if (keyIsPressed && (key === "h")) {
+      translate(this.translatex, this.translatey);
+      rotate(this.dx * mouseX, 3);
+    }
+    else{
+      translate(this.translatex, this.translatey);
+    }
   }
 
-
 }
+
+// class Enemy {
+//   constructor(x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
+//     this.x1 = x1;
+//     this.y1 = y1;
+    
+//     this.x2 = x2;
+//     this.y2 = y2;
+
+//     this.color = color;
+
+//     this.x3 = x3;
+//     this.y3 = y3;
+
+//     this.dx = 0.9;
+
+//     this.translatex = translatex;
+//     this.translatey = translatey;
+//   }
+  
+//   display() {
+//     fill(this.color);
+//     triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+//   }
+  
+//   scanner() {
+//     if (keyIsPressed && (key === "h")) {
+//       translate(this.translatex, this.translatey);
+//       rotate(this.dx * mouseX, 3);
+//     }
+//     else{
+//       translate(this.translatex, this.translatey);
+//     }
+
+//   }
+
+// }
 
 // class Bullet {
 //   this.x = enemy1.x;
