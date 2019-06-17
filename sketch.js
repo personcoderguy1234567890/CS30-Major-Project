@@ -5,25 +5,6 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-// class Bullets() {
-//   constructor() {
-//     this.radius = 5;
-//     this.x = 50;
-//     this.y = 425;
-//     this.gravity = 0.7;
-//     this.dy = 0;
-//     this.dx = 0;
-//     this.ay = 0;
-//     this.ax = 0;
-//   }
-
-//   display() {
-//     fill("blue")
-//     ellipse(this.x, this.y, this.radius*2, this.radius*2);
-//   }
-
-// }
-
 
 let ball, enemy1, scalar;
 let ballImage;
@@ -44,7 +25,7 @@ function setup() {
   createCanvas(500, 500);
   ball = new Theball();
   for (let i=5; i<100; i++) {
-    thebullets = new Bullets(150, 150, 10, 10);
+    thebullets = new Bullets(gunx, guny, random(1, 10), random(1, 10));
     myBullets.push(thebullets);
   }
 }
@@ -57,11 +38,7 @@ function draw() {
   ball.update();
 
   multiplyBullets();
-  // thebullets.display();
 
-  // thebullets.shoot();
-
-  
   ball.checkBorders();
   checkSurface();
   
@@ -142,7 +119,6 @@ class Bullets {
     this.dy = dy;
     this.radius = 5;
     this.color = "purple";
-    // this.timer = new Timer(1000);
   }
 
   display() {
