@@ -54,7 +54,9 @@ function draw() {
   ball.update();
 
   thebullets.display();
-  // thebullets.shoot();
+  thebullets.checkBorders();
+  thebullets.shoot();
+
   
   ball.checkBorders();
   checkSurface();
@@ -117,10 +119,14 @@ class Theball {
   }
 
   checkBorders() {
-    if (this.y + this.radius > 500) {
-      this.y = 500 - this.radius;
-      this.dy = 0;
+    if (this.x + this.radius > width) {
+      this.x = width - this.radius;
+      this.dx = 0;
     }
+    if (this.x + this.radius < 0) {
+      this.x = 0 + this.radius;
+      this.dx = 0;
+  }
 }
 }
 
@@ -141,16 +147,37 @@ class Bullets {
     } 
 
   shoot() {
-    this.x += this.dx * Math.sin(mouseX);
-    this.y += this.dy * Math.cos(mouseX);
+    // this.dy += this.ay;
+    this.y += this.dy;
+
+    // this.dx += this.ax;
+    this.x += this.dx;
+
+    this.dx = 5 * Math.sin(mouseX);
+    this.dy = 5 * Math.cos(mouseY);
   }
 
-  checkOrigin() {
-    if (this.y  >= 100) {
-      this.dy += this.gravity;
+  checkBorders() {
+    if (this.x + this.radius > width) {
+      this.x = width - this.radius;
+      this.dx = 0;
     }
-  }
+    if (this.x + this.radius < 0) {
+      this.x = 0 + this.radius;
+      this.dx = 0;
+    }
+    if (this.y + this.radius < 0) {
+      this.y = 0 + this.radius;
+      this.dy = 0;
+    }
+    if (this.y + this.radius > groundLocation) {
+      this.y = groundLocation - this.radius;
+      this.dy = 0;
+    } 
+    } 
+
 }
+
 
 // function mousePressed() {
 //   thebullets.shoot();
@@ -217,10 +244,6 @@ function keyPressed() {
   }
   if (key === "w") {
     ball.ay = -7;
-  }
-  if (key === "j" && mouseIsPressed) {
-    this.x += this.dx * Math.sin(mouseX);
-    this.y += this.dy * Math.cos(mouseX);
   }
 
 }
