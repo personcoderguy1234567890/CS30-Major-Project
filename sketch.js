@@ -23,12 +23,14 @@ let thebullets;
 
 let myBullets = [];
 
+let hit;
+
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
   for (let i=5; i<100; i++) {
-    thebullets = new Bullets(gunx, guny, random(1, 10), random(1, 10));
-    myBullets.push(thebullets);
+    thebullets = new Bullets(gunx, guny, 5, 5);
+    // myBullets.push(thebullets);
   }
 }
 
@@ -39,7 +41,13 @@ function draw() {
   ball.display();
   ball.update();
 
-  multiplyBullets();
+  thebullets.display();
+  thebullets.checkBorders();
+  thebullets.shoot();
+
+  hitting();
+
+  // multiplyBullets();
 
   ball.checkBorders();
   checkSurface();
@@ -113,6 +121,30 @@ class Theball {
   }
 }
 
+// var hit = false;
+// function draw() {
+// 	background(255);
+// 	ellipse(200,200,100,100);
+// 	ellipse(mouseX,mouseY,150,150);
+
+// 	hit = collideCircleCircle(mouseX,mouseY,150,200,200,100)
+
+// 	print("colliding? " + hit);
+
+// }
+
+
+function hitting() {
+  hit = false;
+
+  hit = collideCircleCircle(ball.x, ball.y, ball.radius * 2, thebullets.x, thebullets.y, thebullets.radius);
+
+  if (hit === true) {
+    thebullets.radius = 0;
+  }
+}
+
+
 class Bullets {
   constructor(x, y, dx, dy) {
     this.x = x;
@@ -161,13 +193,13 @@ class Bullets {
 
 }
 
-function multiplyBullets() {
-  for (let i = 0; i < myBullets.length; i++) {
-    myBullets[i].display();
-    myBullets[i].checkBorders();
-    myBullets[i].shoot();
-  } 
-}
+// function multiplyBullets() {
+//   for (let i = 0; i < myBullets.length; i++) {
+//     myBullets[i].display();
+//     myBullets[i].checkBorders();
+//     myBullets[i].shoot();
+//   } 
+// }
 
 
 // function mousePressed() {
@@ -239,11 +271,11 @@ function keyPressed() {
 
 }
 
-function collisions() {
-  if (ball.x + ball.radius === thebullets.x + thebullets.radius) {
-    ball.x = thebullets.x - thebullets.radius; 
-  }
-}
+// function collisions() {
+//   if (ball.x + ball.radius === thebullets.x + thebullets.radius) {
+//     ball.x = thebullets.x - thebullets.radius; 
+//   }
+// }
 
 
 
