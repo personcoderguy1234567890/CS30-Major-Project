@@ -19,6 +19,8 @@ let gundx = 0.01;
 let secondGunx = 400;
 let secondguny= 100; 
 
+let thebullets;
+
 let myBullets = [];
 
 function setup() {
@@ -107,8 +109,8 @@ class Theball {
     if (this.x + this.radius < 0) {
       this.x = 0 + this.radius;
       this.dx = 0;
+    }
   }
-}
 }
 
 class Bullets {
@@ -119,12 +121,13 @@ class Bullets {
     this.dy = dy;
     this.radius = 5;
     this.color = "purple";
+
   }
 
   display() {
-      fill(this.color);
-      ellipse(this.x, this.y, this.radius*2, this.radius*2);
-    } 
+    fill(this.color);
+    ellipse(this.x, this.y, this.radius*2, this.radius*2);
+  } 
 
   shoot() {
     // this.dy += this.ay;
@@ -234,6 +237,12 @@ function keyPressed() {
     ball.ay = -7;
   }
 
+}
+
+function collisions() {
+  if (ball.x + ball.radius === thebullets.x + thebullets.radius) {
+    ball.x = thebullets.x - thebullets.radius; 
+  }
 }
 
 
