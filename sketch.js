@@ -30,29 +30,43 @@ let ballImage;
 let groundLocation = 450;
 let ground;
 
+let gunx = 100;
+let guny = 100;
+
+let gundx = 0.01;
+
+let secondGunx = 400;
+let secondguny= 100; 
+
 
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
-  // (x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
-  // (rectWidth, rectHeight, color, translatex, translatey)
-  enemy1 = new Enemy(100, 100, "green", 250, 250);
-  // enemy1 = new Enemy(350,100, 400,100, 375,200, "green", 375, 150);
+  thebullets = new Bullets(150, 150, 10, 10);
+  color = ["white", "black", "red", "orange", "purple", "green"];
 }
 
 function draw() {
   background("grey");
   surface();
 
-  push();
-  enemy1.scanner();
-  enemy1.display();
-  pop();
-  // enemy1.display();
   ball.display();
   ball.update();
+
+  thebullets.display();
+  // thebullets.shoot();
   
+  ball.checkBorders();
   checkSurface();
+  
+  push();
+  rightGunScanner();
+  rightGun();
+  pop();
+  push();
+  leftGunScanner();
+  leftGun();
+  pop();
   
 }
 
@@ -61,7 +75,7 @@ class Theball {
     this.radius = 25;
     this.x = 50;
     this.y = 425;
-    this.gravity = 0.7;
+    this.gravity = 0.4;
     this.dy = 0;
     this.dx = 0;
     this.ay = 0;
@@ -101,88 +115,45 @@ class Theball {
     this.ax = 0;
 
   }
+
+  checkBorders() {
+    if (this.y + this.radius > 500) {
+      this.y = 500 - this.radius;
+      this.dy = 0;
+    }
+}
 }
 
-class Enemy {
-  constructor(rectWidth, rectHeight, color, translatex, translatey) {
+class Bullets {
+  constructor(x, y, dx, dy) {
     this.x = x;
     this.y = y;
-
-    this.width = rectWidth;
-    this.height = rectHeight;
-
-    this.color = color;
-
-    this.dx = 0.9;
-
-    this.translatex = translatex;
-    this.translatey = translatey;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = 5;
+    this.color = "purple";
+    // this.timer = new Timer(1000);
   }
-  
+
   display() {
-    rectMode(CENTER)
-    fill(this.color);
-    rect(0, 0, this.rectWidth, this.rectHeight);
-  }
-  
-  scanner() {
-    if (keyIsPressed && (key === "h")) {
-      translate(this.translatex, this.translatey);
-      rotate(this.dx * mouseX, 3);
-    }
-    else{
-      translate(this.translatex, this.translatey);
-    }
+      fill(this.color);
+      ellipse(this.x, this.y, this.radius*2, this.radius*2);
+    } 
+
+  shoot() {
+    this.x += this.dx * Math.sin(mouseX);
+    this.y += this.dy * Math.cos(mouseX);
   }
 
+  checkOrigin() {
+    if (this.y  >= 100) {
+      this.dy += this.gravity;
+    }
+  }
 }
 
-// class Enemy {
-//   constructor(x1, y1, x2, y2, x3, y3, color, translatex, translatey) {
-//     this.x1 = x1;
-//     this.y1 = y1;
-    
-//     this.x2 = x2;
-//     this.y2 = y2;
-
-//     this.color = color;
-
-//     this.x3 = x3;
-//     this.y3 = y3;
-
-//     this.dx = 0.9;
-
-//     this.translatex = translatex;
-//     this.translatey = translatey;
-//   }
-  
-//   display() {
-//     fill(this.color);
-//     triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
-//   }
-  
-//   scanner() {
-//     if (keyIsPressed && (key === "h")) {
-//       translate(this.translatex, this.translatey);
-//       rotate(this.dx * mouseX, 3);
-//     }
-//     else{
-//       translate(this.translatex, this.translatey);
-//     }
-
-//   }
-
-// }
-
-// class Bullet {
-//   this.x = enemy1.x;
-//   this.y = ene
-
-// } 
-
-
 // function mousePressed() {
-//   Enemies.shoot();
+//   thebullets.shoot();
 // }
 
 function surface() {
@@ -199,31 +170,57 @@ function checkSurface() {
 }
 
 
-// function enemies() {
-//   fill("green");
-//   // triangle(this.x1, y1, x2, y2, x3, y3)
-//   translate(125, 120);
-  
-//   rotate(0.9 * mouseX, 3);
-//   enemy1;
-//   // triangle(350,100, 400,100, 375,200);
-//   enemy1()
+function rightGunScanner() {
+  if (keyIsPressed && (key === "j")) {
+    translate(gunx, guny);
+    rotate(gundx * mouseX , 3);
+  }
+  else {
+    translate(gunx, guny);
+  }
+}
 
-// }
+function leftGunScanner() {
+	if (keyIsPressed && (key === "k")) {
+  	translate(secondGunx, secondguny);
+  	rotate(gundx * mouseX , 3);
+	}
+  else {
+    translate(secondGunx, secondguny);
+  }
+}
+
+
+// These functions make a rectangle for each body part
+// and centers it so it rotates about the center
+
+
+function rightGun() {
+	rectMode(CENTER);
+  fill("green");
+  rect(0, 0 , 20, 50)
+}
+
+function leftGun() {
+  rectMode(CENTER);
+  fill("green");
+  rect(0, 0, 20, 50);
+}
 
 function keyPressed() {
 
   if (key === "d") {
-    ball.ax = 5;
+    ball.ax = 7;
   }
   if (key === "a") {
-    ball.ax = -5;
+    ball.ax = -7;
   }
   if (key === "w") {
-    ball.ay = -5;
+    ball.ay = -7;
   }
-  if (key === "s") {
-    ball.ay = 5;
+  if (key === "j" && mouseIsPressed) {
+    this.x += this.dx * Math.sin(mouseX);
+    this.y += this.dy * Math.cos(mouseX);
   }
 
 }
