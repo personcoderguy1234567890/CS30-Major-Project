@@ -38,12 +38,15 @@ let gundx = 0.01;
 let secondGunx = 400;
 let secondguny= 100; 
 
+let myBullets = [];
 
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
-  thebullets = new Bullets(150, 150, 10, 10);
-  color = ["white", "black", "red", "orange", "purple", "green"];
+  for (let i=5; i<100; i++) {
+    thebullets = new Bullets(150, 150, 10, 10);
+    myBullets.push(thebullets);
+  }
 }
 
 function draw() {
@@ -53,9 +56,10 @@ function draw() {
   ball.display();
   ball.update();
 
-  thebullets.display();
-  thebullets.checkBorders();
-  thebullets.shoot();
+  multiplyBullets();
+  // thebullets.display();
+
+  // thebullets.shoot();
 
   
   ball.checkBorders();
@@ -176,6 +180,14 @@ class Bullets {
     } 
     } 
 
+}
+
+function multiplyBullets() {
+  for (let i = 0; i < myBullets.length; i++) {
+    myBullets[i].display();
+    myBullets[i].checkBorders();
+    myBullets[i].shoot();
+  } 
 }
 
 
