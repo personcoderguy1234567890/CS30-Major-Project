@@ -1,9 +1,6 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Get that Ball
+// Raamish Humayun
+// 6/17/19
 
 
 let ball, enemy1, scalar;
@@ -21,19 +18,16 @@ let secondguny= 100;
 
 let thebullets;
 
-let myBullets = [];
+let hit, counter;
 
-let hit;
-
+// Creates the canvas and makes a new bullet and ball from the classes
 function setup() {
   createCanvas(500, 500);
   ball = new Theball();
-  for (let i=5; i<100; i++) {
-    thebullets = new Bullets(gunx, guny, 5, 5);
-    // myBullets.push(thebullets);
+  thebullets = new Bullets(gunx, guny, 10, 10);
   }
-}
 
+  // calls the functions
 function draw() {
   background("grey");
   surface();
@@ -46,8 +40,6 @@ function draw() {
   thebullets.shoot();
 
   hitting();
-
-  // multiplyBullets();
 
   ball.checkBorders();
   checkSurface();
@@ -75,7 +67,7 @@ class Theball {
     this.ax = 0;
   }
 
-
+// adds a gravity component to the dy
   applyGravity() {
     if (this.y + this.radius < groundLocation) {
       this.dy += this.gravity;
@@ -88,12 +80,16 @@ class Theball {
   }
   
   update() {
+    // makes the location dependant on the velocity and the velocity
+    // dependant on the acceleration
     this.dy += this.ay;
     this.y += this.dy;
 
     this.dx += this.ax;
     this.x += this.dx;
 
+    // tells the ball to stop moving in the diection of the key
+    // once the user lets go of the key 
     if (!keyIsPressed) {
       this.dx *= 0.9;
     }
@@ -110,6 +106,9 @@ class Theball {
   }
 
   checkBorders() {
+    // checks to see if the balls location is near the edge 
+    // screen if so it tells the ball to stay in that position until 
+    // the user continues with another command 
     if (this.x + this.radius > width) {
       this.x = width - this.radius;
       this.dx = 0;
@@ -118,29 +117,6 @@ class Theball {
       this.x = 0 + this.radius;
       this.dx = 0;
     }
-  }
-}
-
-// var hit = false;
-// function draw() {
-// 	background(255);
-// 	ellipse(200,200,100,100);
-// 	ellipse(mouseX,mouseY,150,150);
-
-// 	hit = collideCircleCircle(mouseX,mouseY,150,200,200,100)
-
-// 	print("colliding? " + hit);
-
-// }
-
-
-function hitting() {
-  hit = false;
-
-  hit = collideCircleCircle(ball.x, ball.y, ball.radius * 2, thebullets.x, thebullets.y, thebullets.radius);
-
-  if (hit === true) {
-    thebullets.radius = 0;
   }
 }
 
@@ -162,17 +138,21 @@ class Bullets {
   } 
 
   shoot() {
-    // this.dy += this.ay;
+    // makes the location dependant on the velocity 
     this.y += this.dy;
-
-    // this.dx += this.ax;
     this.x += this.dx;
 
+    // makes a fidgity motion dependant on the mouses
+    // x-coordinate and the mouses y-coordinate
     this.dx = 5 * Math.sin(mouseX);
     this.dy = 5 * Math.cos(mouseY);
   }
 
   checkBorders() {
+    // checks to see if the balls location is near the edge 
+    // screen if so it tells the ball to stay in that position until 
+    // the user continues with another command
+    // also checks the top of the canvas 
     if (this.x + this.radius > width) {
       this.x = width - this.radius;
       this.dx = 0;
@@ -193,25 +173,38 @@ class Bullets {
 
 }
 
-// function multiplyBullets() {
-//   for (let i = 0; i < myBullets.length; i++) {
-//     myBullets[i].display();
-//     myBullets[i].checkBorders();
-//     myBullets[i].shoot();
-//   } 
-// }
+// creates an empty list
+let counterArray = [];
+let bulletArray = [];
 
+function hitting() {
+  hit = false;
+  counter = 0;
+  
+  // checks to see if collision happens
+  hit = collideCircleCircle(ball.x, ball.y, ball.radius * 2, thebullets.x, thebullets.y, thebullets.radius * 2);
 
-// function mousePressed() {
-//   thebullets.shoot();
-// }
+  // if a collision happens then the bullet disappears
+  if (hit === true) {
+    thebullets.radius = thebullets.radius/2;
+    counter = counter + 1;
+    bulletArray.push(thebullets);
+    counterArray.push(counter);
+    counterArray.pop()
 
+  }
+  text("Player 1 Score:" + counterArray , 20, 20);
+
+}
+
+// makes the surface
 function surface() {
   fill("black");
   rect(0, 450, 500, 50);
 
 }
-
+  
+  // makes sure the ball can't go through the ground
 function checkSurface() {
   if (ball.y + ball.radius > groundLocation) {
     ball.y = groundLocation - ball.radius;
@@ -219,7 +212,8 @@ function checkSurface() {
   } 
 }
 
-
+// these functions tells the guns where to be located
+// and to rotate following the mouse
 function rightGunScanner() {
   if (keyIsPressed && (key === "j")) {
     translate(gunx, guny);
@@ -241,10 +235,8 @@ function leftGunScanner() {
 }
 
 
-// These functions make a rectangle for each body part
+// These functions make a rectangle for each gun
 // and centers it so it rotates about the center
-
-
 function rightGun() {
 	rectMode(CENTER);
   fill("green");
@@ -257,6 +249,7 @@ function leftGun() {
   rect(0, 0, 20, 50);
 }
 
+// adds acceleration for when a key is pressed so the ball moves
 function keyPressed() {
 
   if (key === "d") {
@@ -270,12 +263,6 @@ function keyPressed() {
   }
 
 }
-
-// function collisions() {
-//   if (ball.x + ball.radius === thebullets.x + thebullets.radius) {
-//     ball.x = thebullets.x - thebullets.radius; 
-//   }
-// }
 
 
 
